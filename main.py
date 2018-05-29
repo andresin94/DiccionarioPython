@@ -1,15 +1,6 @@
 from tkinter import *
-from tkinter import messagebox as MessageBox
+from function import *
 
-def seleccionar():
-    return
-
-def salir():
-	root.destroy()
-
-def test():
-    MessageBox.showinfo("Hola","Hola Mundo")
-    return
 
 
 root=Tk()
@@ -20,7 +11,7 @@ menubar = Menu(root)
 root.config(menu=menubar)
 
 fileMenu=Menu(menubar, tearoff=0)
-fileMenu.add_command(label="Salir", command=salir)
+fileMenu.add_command(label="Salir",command=root.quit)
 
 menubar.add_cascade(label="Archivo",menu=fileMenu)
 

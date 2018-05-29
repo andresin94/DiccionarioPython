@@ -1,10 +1,19 @@
 import json
 from difflib import get_close_matches
 import goslate
+from tkinter import messagebox as MessageBox
+
 
 gs = goslate.Goslate()
 
 data = json.load(open("data.json"))
+
+def seleccionar():
+    return
+
+def test():
+    MessageBox.showinfo("Hola","Hola Mundo")
+    return
 
 def selectLanguage():
     #Hay que elegir español (es), italiano (it) o ingles (en)
@@ -31,6 +40,7 @@ def translate(word):
         return result
     else:
         return "The word doesn´t exit. Please, double check it"
+"""
 while (True):
     language = selectLanguage()
     word = input("Enter a new word: ")
@@ -42,3 +52,4 @@ while (True):
         d = gs.translate(d,language)
         print(str(i) + ". " +d)
         i+=1
+"""
