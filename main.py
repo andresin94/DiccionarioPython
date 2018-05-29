@@ -1,44 +1,41 @@
-import json
-from difflib import get_close_matches
-import goslate
+from tkinter import *
+from tkinter import messagebox as MessageBox
 
-gs = goslate.Goslate()
+def seleccionar():
+    return
 
-data = json.load(open("data.json"))
+def salir():
+	root.destroy()
 
-def selectLanguage():
-    #Hay que elegir español (es), italiano (it) o ingles (en)
-    language = input("Select your language ('es', 'it', 'fr', 'en'): ")
-    if language != 'es' and language != 'it' and language != 'fr' and language != 'en':
-        print("The available language are Spanish (es), Italian (it), French (fr) and English (en)")
-        selectLanguage()
-    return language
+def test():
+    MessageBox.showinfo("Hola","Hola Mundo")
+    return
 
-def translate(word):
-    word = word.lower()
-    if word in data:
-        return data[word]
-    elif word.title() in data:
-        return data[word.title()]
-    elif len(get_close_matches(word, data.keys())) > 0:
-        similarWords = get_close_matches(word, data.keys())
-        print("Did you mean %s instead? " % similarWords)
-        pos = int(input("If it isn't one of the words, press any key: "))
-        if pos <= len(similarWords):
-            result = data[similarWords[pos-1]]
-        else:
-            result = "Please"
-        return result
-    else:
-        return "The word doesn´t exit. Please, double check it"
-while (True):
-    language = selectLanguage()
-    word = input("Enter a new word: ")
-    if word == "0":
-        break
-    definition = translate(word)
-    i = 1
-    for d in definition:
-        d = gs.translate(d,language)
-        print(str(i) + ". " +d)
-        i+=1
+
+root=Tk()
+
+root.title("Diccionario")
+
+menubar = Menu(root)
+root.config(menu=menubar)
+
+fileMenu=Menu(menubar, tearoff=0)
+fileMenu.add_command(label="Salir", command=salir)
+
+menubar.add_cascade(label="Archivo",menu=fileMenu)
+
+Label(root, text="Introduce la palabra: ").pack()
+entry = Entry(root).pack()
+
+#Seleccionar idioma
+opcion = IntVar()
+Label(root, text="Selecciona el idioma: ").pack()
+Radiobutton(root, text="Inglés", variable=opcion, value = 'en', command=seleccionar).pack()
+Radiobutton(root, text="Español", variable=opcion, value = 'es', command=seleccionar).pack()
+Radiobutton(root, text="Italiano", variable=opcion, value = 'it', command=seleccionar).pack()
+Radiobutton(root, text="Francés", variable=opcion, value = 'fr', command=seleccionar).pack()
+
+Button(root, text="Buscar", command=test).pack()
+
+#Bucle de la aplicación
+root.mainloop()
