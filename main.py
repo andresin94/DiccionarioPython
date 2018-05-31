@@ -1,29 +1,16 @@
+import tkinter as tk
 from tkinter import *
-#from function import *
+from Diccionario import *
+from tkinter import messagebox
 from difflib import get_close_matches
 
-import json
-
-data = json.load(open("data.json"))
-
-def translate(word):
-    word = word.lower()
-    monitor.config(text="word")
-    if word in data:
-	    monitor.config(text="word")
-    elif word.title() in data:
-        return data[word.title()]
-    elif len(get_close_matches(word, data.keys())) > 0:
-        similarWords = get_close_matches(word, data.keys())
-        print("Did you mean %s instead? " % similarWords)
-        pos = int(input("If it isn't one of the words, press any key: "))
-        if pos <= len(similarWords):
-            result = data[similarWords[pos-1]]
-        else:
-            result = "Please"
-        print(result)
-    else:
-        return "The word doesn´t exit. Please, double check it"
+dic = Diccionario()
+def lookFor():
+    lista.delete(0, tk.END)
+    word = n1.get()
+    dic.lookFor(word)
+    definition=dic.printDefinition()
+    lista.insert(0, *definition)
 
 def seleccionar():
     return
@@ -42,23 +29,35 @@ fileMenu=Menu(menubar, tearoff=0)
 fileMenu.add_command(label="Salir",command=root.quit)
 
 menubar.add_cascade(label="Archivo",menu=fileMenu)
+"""
+imagen = PhotoImage(file="diccionario.png")
+Label(root, image=imagen).pack(side="left")
+"""
+frame=Frame(root)
+frame.pack(side="left")
+frame.config(bd=20)
 
-Label(root, text="Introduce la palabra: ").pack()
+frame1=Frame(root)
+frame1.pack(side="right")
+frame1.config(bd=20)
+
+Label(frame, text="Introduce la palabra: ").pack()
 n1 = StringVar()
-entry = Entry(root, textvariable=n1).pack()
+entry = Entry(frame, textvariable=n1).pack()
 
 #Seleccionar idioma
-opcion = StringVar()
+opcion = StringVar(value=" ")
 
-Label(root, text="Selecciona el idioma: ").pack()
-Radiobutton(root, text="Inglés", variable=opcion, value = 'en', command=seleccionar).pack()
-Radiobutton(root, text="Español", variable=opcion, value = 'es', command=seleccionar).pack()
-Radiobutton(root, text="Italiano", variable=opcion, value = 'it', command=seleccionar).pack()
-Radiobutton(root, text="Francés", variable=opcion, value = 'fr', command=seleccionar).pack()
+Label(frame, text="Selecciona el idioma: ").pack()
+Radiobutton(frame, text="Inglés", variable=opcion, value = 'en', command=seleccionar).pack()
+Radiobutton(frame, text="Español", variable=opcion, value = 'es', command=seleccionar).pack()
+Radiobutton(frame, text="Italiano", variable=opcion, value = 'it', command=seleccionar).pack()
+Radiobutton(frame, text="Francés", variable=opcion, value = 'fr', command=seleccionar).pack()
 
-Button(root, text="Buscar", command=translate(n1.get())).pack()
+Button(frame, text="Buscar", command=lookFor).pack()
 
-monitor=Label(root, text="HOLA")
-monitor.pack()
+
+lista = Listbox(frame1, width = 50)
+lista.pack()
 #Bucle de la aplicación
 root.mainloop()
