@@ -1,8 +1,10 @@
 import json
 import goslate
+from difflib import get_close_matches
+
 
 class Diccionario:
-    language="es"
+    language="en"
     definition=""
     def __init__(self):
         self.data = json.load(open("data.json"))
@@ -17,6 +19,9 @@ class Diccionario:
             return self.definition
         elif word=="":
             print("Please, insert new word")
+        elif word.title() in self.data:
+            self.definition = self.data[word.title()]
+            return            
         else:
             print("error")
 
@@ -24,8 +29,7 @@ class Diccionario:
         i=1
         definition=[]
         for d in self.definition:
-            d = self.gs.translate(d,self.language)
+            #d = self.gs.translate(d,self.language)
             definition.append(str(i) + ". " +d+"\n")
             i+=1
-        print(definition)
         return definition

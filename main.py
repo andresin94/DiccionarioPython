@@ -12,52 +12,50 @@ def lookFor():
     definition=dic.printDefinition()
     lista.insert(0, *definition)
 
-def seleccionar():
+def selectLanguage():
+    language = option.get()
+    dic.selectLanguage(language)
     return
 
-def test():
-    MessageBox.showinfo(opcion.get(),"Hola Mundo")
-    return
-
+#MainWindow
 root=Tk()
-root.title("Diccionario")
+root.title("Dictionary")
 
+#ToolBar
 menubar = Menu(root)
 root.config(menu=menubar)
-
 fileMenu=Menu(menubar, tearoff=0)
 fileMenu.add_command(label="Salir",command=root.quit)
-
 menubar.add_cascade(label="Archivo",menu=fileMenu)
-"""
-imagen = PhotoImage(file="diccionario.png")
-Label(root, image=imagen).pack(side="left")
-"""
+
+#We divide the screen into 2 parts
 frame=Frame(root)
 frame.pack(side="left")
 frame.config(bd=20)
-
 frame1=Frame(root)
 frame1.pack(side="right")
 frame1.config(bd=20)
 
-Label(frame, text="Introduce la palabra: ").pack()
+#Variables
 n1 = StringVar()
+option = StringVar(value=" ")
+
+#LeftPart
+Label(frame, text="Enter a new word: ").pack()
 entry = Entry(frame, textvariable=n1).pack()
-
-#Seleccionar idioma
-opcion = StringVar(value=" ")
-
-Label(frame, text="Selecciona el idioma: ").pack()
-Radiobutton(frame, text="Inglés", variable=opcion, value = 'en', command=seleccionar).pack()
-Radiobutton(frame, text="Español", variable=opcion, value = 'es', command=seleccionar).pack()
-Radiobutton(frame, text="Italiano", variable=opcion, value = 'it', command=seleccionar).pack()
-Radiobutton(frame, text="Francés", variable=opcion, value = 'fr', command=seleccionar).pack()
-
+#Select language
+Label(frame, text="Select Language: ").pack()
+Radiobutton(frame, text="Inglés", variable=option, value = 'en', command=selectLanguage).pack()
+Radiobutton(frame, text="Español", variable=option, value = 'es', command=selectLanguage).pack()
+Radiobutton(frame, text="Italiano", variable=option, value = 'it', command=selectLanguage).pack()
+Radiobutton(frame, text="Francés", variable=option, value = 'fr', command=selectLanguage).pack()
+#LookFor Button
 Button(frame, text="Buscar", command=lookFor).pack()
 
-
+#Right Part
+Label(frame1, text = "Definition: ").pack()
 lista = Listbox(frame1, width = 50)
 lista.pack()
-#Bucle de la aplicación
+
+#Aplication Loop
 root.mainloop()
